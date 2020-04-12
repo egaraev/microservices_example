@@ -1,0 +1,13 @@
+{
+  "id": "flaskapp",
+  "name": "flaskapp",
+  "address": "flaskapp",
+  "port": 5000,
+  "check": {
+    "name": "Check FlaskApp health",
+    "http": "http://flaskapp:5000/health",
+    "method": "GET",
+    "interval": "10s",
+    "timeout": "1s"
+  }
+}

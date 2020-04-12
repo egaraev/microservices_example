@@ -1,0 +1,13 @@
+{
+  "id": "redisapp",
+  "name": "redisapp",
+  "address": "redisapp",
+  "port": 5000,
+  "check": {
+    "name": "Check FlaskApp health",
+    "http": "http://redisapp:5000/health",
+    "method": "GET",
+    "interval": "10s",
+    "timeout": "1s"
+  }
+}

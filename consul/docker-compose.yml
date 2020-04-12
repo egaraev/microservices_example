@@ -1,0 +1,171 @@
+version: '2'
+services:
+  consul:
+    image: consul
+    command: consul agent -server -dev -client=0.0.0.0 -ui -bootstrap -log-level warn
+    ports:
+      - "8500:8500"
+
+  reverse-proxy:
+    build: ./reverse-proxy 
+    image: reverse-proxy 
+    command: traefik --consulCatalog.endpoint=consul:8500
+    ports:
+      - "8080:8080"
+      - "8081:80"
+      - "8600:53/udp"
+    depends_on:
+      - consul
+    links:
+      - consul
+            
+
+#  flaskapp:
+#    build: ./flaskapp
+#    volumes:
+#      - ./flaskapp:/flaskapp
+#    ports:
+#      - "5000"
+#    environment:
+#      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:localhost;PathPrefixStrip:/flask
+
+  logmysql:
+    build: ./logmysql
+    image: logmysql
+    ports:
+      - "5000"
+    depends_on:
+      - mysqldb
+
+
+  logmongo:
+    build: ./logmongo
+    image: logmongo
+    ports:
+      - "5000"
+    depends_on:
+      - mongodb
+
+  redisapp:
+    build: ./redisapp
+    ports:
+      - "5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+
+  crud:
+    build: ./crud_mongo
+    image: crud_mongo
+    ports:
+      - "5000"
+    environment:
+      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:sub1.localhost      
+
+
+  webinterface:
+    build: ./webinterface
+    image: webinterface
+    ports:
+      - "5000"
+    environment:
+      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:mgmt.localhost
+
+       
+      
+      
+  trading:
+    build: ./trading
+    links:
+     - mysqldb    
+     
+  debug:
+    build: ./debug
+    environment:
+      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:localhost;PathPrefixStrip:/debug
+    links:
+     - mysqldb 
+
+
+  memcached:
+    image: rbekker87/memcached:alpine
+    tty: true
+    ports:
+      - "11211:11211"
+    links:
+      - consul      
+
+     
+      
+  redis:
+    build: ./redis
+    volumes:
+      - ./redis:/redis_config
+    tty: true
+    ports:
+      - "5052:6379"
+    links:
+      - consul      
+
+  rabbitmq:
+    build: ./rabbitmq
+    volumes:
+      - ./rabbitmq:/rabbitmq_config
+    tty: true
+    ports:
+      - "5050:5672"
+      - "5051:15672"
+    links:
+      - consul      
+      
+  mongodb:
+    build: ./mongodb
+    volumes:
+      - ./mongodb:/mongodb_config
+      - ./mongo_db:/data/db
+    ports:
+      - "27017"
+#    links:
+#      - web     
+      
+  registrator:
+    depends_on:
+      - consul
+    image: gliderlabs/registrator:master
+    command: -internal consul://consul:8500
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    links:
+      - consul
+      
+      
+  mysqldb:
+    build: ./mysqldb
+#    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    restart: always
+    volumes:
+      - ./mysql_db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_USER=root
+    links:
+      - consul 
+      
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+     - PMA_ARBITRARY=1
+     - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:localhost;PathPrefixStrip:/phpmyadmin/
+    restart: always
+    links:
+     - mysqldb
+    depends_on:
+      - mysqldb
+    ports:
+     - 81:80
+    volumes:
+     - /sessions
+
+

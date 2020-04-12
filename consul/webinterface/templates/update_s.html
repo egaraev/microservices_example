@@ -1,0 +1,178 @@
+<!DOCTYPE html>	
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
+  <title>Cryptobot</title>
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/AdminLTE.min.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/_all-skins.min.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap.css')}}">
+
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+  <div class="wrapper">
+    <header class="main-header">
+      <nav class="navbar navbar-static-top">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="/" class="navbar-brand"><b>Cryptobot</b></a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="content-wrapper">
+      <div class="container">  
+        <section class="content">
+          <div class="box box-info">
+            <div class="box-header with-border">
+              	<center>
+	              	<h3 class="box-title">Update settings</h3>
+	            </center>
+            </div>
+
+            <form class="form-horizontal" method="POST" action="/updatesettings">
+            {% for row in data %}
+              <div class="box-body">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Buy Size</label>
+
+                  <div class="col-sm-10">
+                    <input name="buy_size" value="{{ row[1] }}" type="text" class="form-control" placeholder="buy size" autocomplete="off" required>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Buy Timeout</label>
+
+                  <div class="col-sm-10">
+                    <input name="buy_timeout" value="{{ row[2] }}" type="text" class="form-control" placeholder="buy timeout" autocomplete="off" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Sell Timeout</label>
+
+                  <div class="col-sm-10">
+                    <input name="sell_timeout" value="{{ row[3] }}" type="text" class="form-control" placeholder="sell timeout" autocomplete="off" required>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Profit</label>
+
+                  <div class="col-sm-10">
+                    <input name="profit" value="{{ row[4] }}" type="text" class="form-control" placeholder="profit percent" autocomplete="off" required>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Stop Bot FORCE</label>
+
+                  <div class="col-sm-10">
+                    <input name="force_stop" value="{{ row[5] }}" type="text" class="form-control" placeholder="force stop" autocomplete="off" required>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Max open orders</label>
+
+                  <div class="col-sm-10">
+                    <input name="maxorders" value="{{ row[6] }}" type="text" class="form-control" placeholder="max orders" autocomplete="off" required>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Max active markets</label>
+
+                  <div class="col-sm-10">
+                    <input name="max_markets" value="{{ row[7] }}" type="text" class="form-control" placeholder="max active markets" autocomplete="off" required>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Min % market change</label>
+
+                  <div class="col-sm-10">
+                    <input name="min_percent_chg" value="{{ row[8] }}" type="text" class="form-control" placeholder="min percent chg" autocomplete="off" required>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Max % market change</label>
+
+                  <div class="col-sm-10">
+                    <input name="max_percent_chg" value="{{ row[9] }}" type="text" class="form-control" placeholder="max percent chg" autocomplete="off" required>
+                  </div>
+                </div>
+
+                  <div class="form-group">
+                  <label class="col-sm-2 control-label">Debug mode</label>
+
+                  <div class="col-sm-10">
+                    <input name="debug_mode" value="{{ row[11] }}" type="text" class="form-control" placeholder="debug mode" autocomplete="off" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Stop bot</label>
+
+                  <div class="col-sm-10">
+                    <input name="stop_bot" value="{{ row[12] }}" type="text" class="form-control" placeholder="stop bot" autocomplete="off" required>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">API Key</label>
+
+                  <div class="col-sm-10">
+                    <input name="api_key" value="{{ row[25] }}" type="text" class="form-control" placeholder="api key" autocomplete="off" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">API Secret</label>
+
+                  <div class="col-sm-10">
+                    <input name="api_secret" value="{{ row[26] }}" type="text" class="form-control" placeholder="api secret" autocomplete="off" required>
+                  </div>
+                </div>
+
+              <div class="box-footer">
+                <a href="/settings"><button type="button" class="btn btn-default">Cancel</button></a>
+                <input name="update" type="submit" class="btn btn-info pull-right" value="Update">
+              </div>
+             {% endfor %}
+            </div>
+            </form>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <footer class="main-footer">
+      <div class="container">
+        <div class="pull-right hidden-xs">
+          <a href="{{ url_for('logout') }}"><b>Logout</b></a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <script src="{{ url_for('static', filename='js/jquery-2.2.3.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/app.min.js')}}"></script>
+
+</body>
+</html>

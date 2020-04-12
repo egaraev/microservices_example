@@ -1,0 +1,13 @@
+{
+  "id": "logmysql",
+  "name": "logmysql",
+  "address": "logmysql",
+  "port": 5000,
+  "check": {
+    "name": "Check logmysql health",
+    "http": "http://logmysql:5000/health",
+    "method": "GET",
+    "interval": "10s",
+    "timeout": "1s"
+  }
+}

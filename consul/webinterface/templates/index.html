@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+  <title>Cryptobot</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/AdminLTE.min.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/_all-skins.min.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap.css')}}">
+  <link rel="icon" href="favicon.ico">
+
+</head>
+
+<body class="hold-transition skin-blue layout-top-nav">
+  <div class="wrapper">
+
+    <header class="main-header">
+      <nav class="navbar navbar-static-top">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="/" class="navbar-brand"><b>Cryptobot</b></a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="content-wrapper">
+      <div class="container">
+        <section class="content-header">
+            {% for message in get_flashed_messages()%}
+          <div class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              {{ message }}
+          </div>
+            {% endfor%}
+        </section>
+
+          <div class="container" style="margin-top:3px;">
+            <div class="row">
+                <div class="col-md-0 col-md-offset-0 text-left">
+                {% if session_user_name %}
+                    <p>Hello <b>{{ session_user_name }}</b></p>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+            <div class="box-body">
+              <table id="dataphone" class="table table-bordered table-striped">
+                <thead align="center">
+
+                  <tr>
+                    <b>Please select your action</b>
+
+                  </tr>
+                </thead>
+
+                  <tr>
+		            <td><h3><a href="logs">View Logs</a></h3></td>
+                    <td><h3><a href="orders">View open orders</a></h3></td>
+                    <td><h3><a href="closedorders">View closed orders</a></h3></td>
+                    <td><h3><a href="users">Users management page</a></h3></td>
+                    <td><h3><a href="markets">Markets management page</a></h3></td>
+                    <td><h3><a href="settings">Trading Settings page</a></h3></td>
+		            <td><h3><a href="http://localhost:8081/debug">Debug</a></h3></td>
+
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+
+
+
+    <footer class="main-footer">
+      <div class="container">
+        <div class="pull-right hidden-xs">
+          <a href="{{ url_for('logout') }}"><b>Logout</b></a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+
+  <script src="{{ url_for('static', filename='js/jquery-2.2.3.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/app.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.dataTables.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/dataTables.bootstrap.min.js')}}"></script>
+
+  <script>
+    $(function () {
+      $("#dataphone").DataTable();
+
+    });
+  </script>
+
+</body>
+</html>
