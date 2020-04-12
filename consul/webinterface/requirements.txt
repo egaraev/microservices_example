@@ -13,7 +13,7 @@ pycrypto==2.6.1
 PyJWT==1.7.1
 pymodm==0.4.2
 pymongo==3.9.0
-requests==2.14.2
+requests==2.20.0
 urllib3==1.25.6
 Werkzeug==1.0.0
 WTForms==2.2.1
