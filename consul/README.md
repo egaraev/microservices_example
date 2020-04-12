@@ -3,9 +3,6 @@
 
 ## 1. clone repository
 ```
-$ git clone git@gitlab.spp42.net:ali.yilmaz/consul_demo.git
-$ cd consul_demo
-$ git checkout registrator
 
 ```
 docker build -t reverse-proxy .
@@ -54,8 +51,4 @@ After scaling, visit:
 
 
 
-# Appendices
 
-During my researches, I found this article very helpful. If you wonder what `docker.sock` means to docker, take a look at this article:
-
-https://medium.com/lucjuggery/about-var-run-docker-sock-3bfd276e12fd
