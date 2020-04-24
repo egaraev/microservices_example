@@ -52,6 +52,9 @@ def tick():
     keyindex, logmongo_ip_bytes = con.kv.get('logmongo')
     logmongo_ip = logmongo_ip_bytes['Value'].decode()
     API_ENDPOINT = "http://"+logmongo_ip+"/api/v1/items"
+    ##
+    API_ENDPOINT="http://logmongo:5000/api/v1/items"
+    ##
 	
     buy_size = parameters()[0] #The size for opening orders for STOP_LOSS mode
     max_buy_timeout = parameters()[1]

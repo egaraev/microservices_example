@@ -57,6 +57,7 @@ def tick():
     keyindex, logmongo_ip_bytes = con.kv.get('logmongo')
     logmongo_ip = logmongo_ip_bytes['Value'].decode()
     API_ENDPOINT = "http://"+logmongo_ip+"/api/v1/items"
+    API_ENDPOINT="http://logmongo:5000/api/v1/items"
     req = urllib2.Request(API_ENDPOINT)
     req.add_header('Content-Type', 'application/json')
 	

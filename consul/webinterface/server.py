@@ -33,7 +33,14 @@ con = consul.Consul(host=CONSUL_IP, port=CONSUL_PORT)
 keyindex, redisapp_ip_bytes = con.kv.get('redisapp')
 redisapp_ip = redisapp_ip_bytes['Value'].decode()
 
+
+
 API_ENDPOINT = "http://"+redisapp_ip+"/api/save"
+##
+API_ENDPOINT = "http://redisapp:5000/api/save"
+##
+
+
 req = urllib2.Request(API_ENDPOINT)
 req.add_header('Content-Type', 'application/json')
 

@@ -8,7 +8,8 @@
 
 # Enable web configuration backend
 [web]
-[flaskapp]
+
+
 
 # Web administration port
 #

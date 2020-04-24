@@ -5,6 +5,8 @@ services:
     command: consul agent -server -dev -client=0.0.0.0 -ui -bootstrap -log-level warn
     ports:
       - "8500:8500"
+      
+   
 
   reverse-proxy:
     build: ./reverse-proxy 
@@ -12,26 +14,20 @@ services:
     command: traefik --consulCatalog.endpoint=consul:8500
     ports:
       - "8080:8080"
-      - "8081:80"
+      - "80:80"
       - "8600:53/udp"
     depends_on:
       - consul
     links:
       - consul
             
-
-#  flaskapp:
-#    build: ./flaskapp
-#    volumes:
-#      - ./flaskapp:/flaskapp
-#    ports:
-#      - "5000"
-#    environment:
-#      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:localhost;PathPrefixStrip:/flask
-
+            
+            
   logmysql:
     build: ./logmysql
     image: logmysql
+    environment:
+      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:localhost;PathPrefixStrip:/logmysql
     ports:
       - "5000"
     depends_on:
@@ -42,6 +38,8 @@ services:
   logmongo:
     build: ./logmongo
     image: logmongo
+    environment:
+      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:localhost;PathPrefixStrip:/logmongo
     ports:
       - "5000"
     depends_on:
@@ -49,6 +47,8 @@ services:
 
   redisapp:
     build: ./redisapp
+    environment:
+      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:redisapp.localhost
     ports:
       - "5000"
     volumes:
@@ -62,7 +62,7 @@ services:
     ports:
       - "5000"
     environment:
-      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:sub1.localhost      
+      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:crud.localhost      
     depends_on:
       - mongodb
 
@@ -72,7 +72,7 @@ services:
     ports:
       - "5000"
     environment:
-      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:mgmt.localhost
+      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:webinterface.localhost
     depends_on:
       - mysqldb
       - redis
@@ -81,11 +81,13 @@ services:
       
   trading:
     build: ./trading
+    environment:
+      - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:localhost;PathPrefixStrip:/trading
     links:
      - mysqldb
     depends_on:
-      - mysqldb
-      - rabbitmq     
+     - mysqldb
+     - rabbitmq     
      
   debug:
     build: ./debug
@@ -164,12 +166,12 @@ services:
     container_name: phpmyadmin
     environment:
      - PMA_ARBITRARY=1
-     - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:localhost;PathPrefixStrip:/phpmyadmin/
+     - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:phpmyadmin.localhost
     restart: always
     links:
      - mysqldb
     depends_on:
-      - mysqldb
+     - mysqldb
     ports:
      - 81:80
     volumes:

@@ -31,6 +31,7 @@ redis_ip = redis_ip_bytes['Value'].decode()
 redis_ip_only = redis_ip.split(":", 1)
 redis_ip_only=redis_ip_only[0]
 
+
 # add this webservice to catalog
 
 consul_registry = {
