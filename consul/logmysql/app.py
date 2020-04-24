@@ -12,7 +12,7 @@ SELF_IP = socket.gethostbyname(SELF_HOSTNAME)
 
 
 
-time.sleep(5) # seconds
+time.sleep(15) # seconds
 
 # fetch consul's ip, so that we can talk to it.
 CONSUL_ALIAS = 'consul'

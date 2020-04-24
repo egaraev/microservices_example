@@ -6,6 +6,9 @@ import MySQLdb
 import pika
 import datetime
 
+time.sleep(40) # seconds
+
+
 SELF_HOSTNAME = str(socket.gethostname())
 SELF_IP = socket.gethostbyname(SELF_HOSTNAME)
 

@@ -36,6 +36,7 @@ services:
       - "5000"
     depends_on:
       - mysqldb
+      - rabbitmq
 
 
   logmongo:
@@ -62,7 +63,8 @@ services:
       - "5000"
     environment:
       - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:sub1.localhost      
-
+    depends_on:
+      - mongodb
 
   webinterface:
     build: ./webinterface
@@ -71,14 +73,19 @@ services:
       - "5000"
     environment:
       - SERVICE_TAGS=traefik.enable=true,traefik.frontend.entryPoints=http,traefik.frontend.rule=Host:mgmt.localhost
-
+    depends_on:
+      - mysqldb
+      - redis
        
       
       
   trading:
     build: ./trading
     links:
-     - mysqldb    
+     - mysqldb
+    depends_on:
+      - mysqldb
+      - rabbitmq     
      
   debug:
     build: ./debug

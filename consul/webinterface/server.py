@@ -8,6 +8,9 @@ from bson.json_util import dumps
 from flask import Flask, request, jsonify
 import pymysql
 import memcache
+import time
+
+time.sleep(10)
 
 app = Flask(__name__)
 app.secret_key = "mys3cr3tk3y"
